@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(project_x VERSION 1.0)
+project(SocialCard VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -8,8 +8,7 @@ add_subdirectory(third-party/drogon)
 
 set(SOURCES
     src/main.cpp
-    src/signup.hpp
-    src/signup.cpp
+    src/handlers/signup.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

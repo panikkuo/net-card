@@ -1,3 +1,20 @@
 {
-    "host" : "localhost"
+    "db" : {
+        "host" : "localhost",
+        "port" : 5432,
+        "database" : "SocialCard",
+        "user" : "postgres",
+        "password" : "password",
+        "client" : "postgresql"
+    },
+    "app": {
+        "log_level" : "debug",
+        "listeners" : [
+            {
+                "adress" : "0.0.0.0",
+                "port" : 8080,
+                "ssl" : false
+            }
+        ]
+    }
 }
