@@ -8,12 +8,15 @@ add_subdirectory(third-party/drogon)
 
 set(SOURCES
     src/main.cpp
+    src/handlers/signup.hpp
     src/handlers/signup.cpp
     src/utils/consts.hpp
+    src/utils/errors.hpp
+    src/utils/errors.cpp
     src/utils/validators.hpp
     src/utils/validators.cpp
     src/utils/extractors.hpp
-    src/utils/extractors/cpp
+    src/utils/extractors.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
