@@ -12,6 +12,8 @@ set(SOURCES
     src/utils/consts.hpp
     src/utils/validators.hpp
     src/utils/validators.cpp
+    src/utils/extractors.hpp
+    src/utils/extractors/cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
