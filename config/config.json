@@ -2,7 +2,7 @@
     "db" : {
         "host" : "localhost",
         "port" : 5432,
-        "database" : "SocialCard",
+        "database" : "NetCard",
         "user" : "postgres",
         "password" : "password",
         "client" : "postgresql"
