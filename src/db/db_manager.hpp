@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <drogon/orm/DbClient.h>
-#include <drogon/Json.h>
+#include <Json/json.h>
 
 namespace NetCardID::db {
     class DbManager {
@@ -11,5 +11,5 @@ namespace NetCardID::db {
         static std::shared_ptr<drogon::orm::DbClient> getDbClient();
     private:
         static std::shared_ptr<drogon::orm::DbClient> dbClient_;
-    }
+    };
 }

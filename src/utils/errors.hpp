@@ -9,7 +9,7 @@ namespace NetCardID::utils::errors {
     class ValidationErrorID : public std::exception {
     public:
         ValidationErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message);
-        string error();
+        std::string error();
         drogon::HttpStatusCode code();
 
     private:
@@ -19,9 +19,9 @@ namespace NetCardID::utils::errors {
 
     class ExtractionErrorID : public std::exception {
     public: 
-        ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string field);
-        string error();
-        drgon::HttpStatusCode code();
+        ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string_view& field);
+        std::string error();
+        drogon::HttpStatusCode code();
         std::string field();
 
     private:

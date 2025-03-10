@@ -1,8 +1,7 @@
-#include <drogon/HttpResponse.h>
-
 #include "errors.hpp"
 
 namespace NetCardID::utils::errors {
+
     ValidationErrorID::ValidationErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message) 
         : message_(message.second), code_(message.first) {}
 
@@ -15,8 +14,8 @@ namespace NetCardID::utils::errors {
     }
 
 
-    ExtractionErrorID::ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string field) 
-        : message_(message.second), code_(message.first), field_(field) {}
+    ExtractionErrorID::ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string_view& field) 
+        : message_(message.second), code_(message.first), field_(field.data()) {}
 
     std::string ExtractionErrorID::error() {
         return message_;

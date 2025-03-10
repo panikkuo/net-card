@@ -1,6 +1,4 @@
-#include <memory>
-#include <drogon/orm/DbClient.h>
-#include <drogon/Json.h>
+#include "db_manager.hpp"
 
 namespace NetCardID::db {
     static void DbManager::init(const Json::Value& config) {
