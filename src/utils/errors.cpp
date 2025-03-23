@@ -6,7 +6,9 @@ namespace NetCardID::utils::errors {
         : message_(message.second), code_(message.first) {}
 
     std::string ValidationErrorID::error() {
-        return message_;
+        std::shared_ptr<Json::Value> jsonError;
+        jsonError["Validation Error"] = message_;
+        return jsonError->toStyledString();
     }
 
     drogon::HttpStatusCode ValidationErrorID::code() {
