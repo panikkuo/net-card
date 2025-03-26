@@ -14,7 +14,7 @@ namespace NetCardID::models::users::v1 {
         std::string password;
         struct Network {
             std::string network;
-            std::string picture_url;
+            std::string url;
         };
         std::vector<Network> networks;
     };

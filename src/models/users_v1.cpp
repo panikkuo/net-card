@@ -5,11 +5,13 @@ namespace NetCardID::models::users::v1 {
     UsersV1SignUpRequest Parse(const drogon::Json::Value& json) {
         UsersV1SignUpRequest request;
 
-        request.username = NetCard::ExtractValueFromJson(json, NetCard::utils::consts::kUsernameField, true).value();
+        request.username = NetCardID::utils::extractors::ExtractValueFromJson(json, NetCard::utils::consts::kUsernameField, true).value();
+        NetCatdID::utils::validators::ValidateUsername(request.username);
 
-        request.password = NetCard::ExtractValueFromJson(json, NetCard::models::users::v1::kPassword, true).value();
+        request.password = NetCardID::utils::extractors::ExtractValueFromJson(json, NetCard::utils::consts::kPasswordField, true).value();
+        NetCardID::utils::validators::ValidatePassword(request.password);
 
-        auto networks_opt = NetCard::ExtractValueFromJson(json, NetCard::models::users::v1::kNetworks, false);
+        auto networks_opt = NetCardID::utils::extractors::ExtractJsonFromJson(json, NetCard::utils::consts::kNetworksCollection, false);
 
         if (!networks_opt.has_value()) 
             return request;
@@ -18,8 +20,8 @@ namespace NetCardID::models::users::v1 {
 
         for (const auto& network : networks) {
             request.networks.push_back({
-                NetCard::ExtractValueFromJson(network, NetCard::models::users::v1::kNetworkName, true).value(),
-                NetCard::ExtractValueFromJson(network, NetCard::models::users::v1::kNetworkUrl, true).value()
+                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts::kNetworkName, true).value(),
+                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts:::kNetworkUrl, true).value()
             });
         }
 

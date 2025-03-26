@@ -19,10 +19,10 @@ namespace NetCardID::utils::consts {
     inline const std::regex kPasswordPattern{"^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_\\-+=\\[\\]{};':\"\\|,.<>/?]).+$"};
 
     // network
-    inline constexpr std::string_view kNetworksCollection = "networks";
+    inline constexpr std::string_view kNetworksCollectionField = "networks";
 
     inline constexpr std::string_view kNetworkNameField = "network";
-    inline constexpr std::string_view kNetworkUrl = "url";
+    inline constexpr std::string_view kNetworkUrlField = "url";
     inline constexpr std::string_view kNetworkPictureUrlField = "picture_url";
 
     //Validation errors

@@ -1,7 +1,6 @@
 #include "signup.hpp"
 
 namespace NetCardID::users::v1::signup::post {
-    //TODO: дописать
     void Handler::RequestHandler(const drogon::HttpRequestPtr& request, std::function<void(const drogon::HttpResponsePtr&)>&& callback) {
         drogon::HttpResponsePtr response = drogon::HttpResponse::newHttpResponse();
         std::shared_ptr<Json::Value> json_request = request->getJsonObject();
@@ -32,9 +31,21 @@ namespace NetCardID::users::v1::signup::post {
         }
         std::string user_id = result1[0]["id"].as<std::string>();
 
-        for (const auto net : user_request.networks) {
+        try {
+            for (const auto net : user_request.networks) {
+                drogon::orm::Result result2 = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, net.network);
+                std::string net_id = result2[0]["id"].as<std::string>();
+                co_await db->execSqlCoro(NetCard::db::db_request::NetkAddUserNetQuery, user_id, net_id, user_request.url);
+            }
+        }
+        catch () {
 
         }
 
+        response->setStatusCode(drogon::HttpStatusCode::k200OK);
+        Json::Value json;
+        json["Result"] = "User was successfully added";
+        callback(response);
+        return;
     }
 }
