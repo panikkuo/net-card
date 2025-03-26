@@ -3,9 +3,9 @@
 #include <vector>
 #include <Json/json.h>
 
-#include "extractors.hpp"
-#include "validators.hpp"
-#include "consts.hpp"
+#include "utils/extractors.hpp"
+#include "utils/validators.hpp"
+#include "utils/consts.hpp"
 
 namespace NetCardID::models::users::v1 {
 

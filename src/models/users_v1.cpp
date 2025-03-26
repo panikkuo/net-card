@@ -1,7 +1,6 @@
 #include "users_v1.hpp"
 
 namespace NetCardID::models::users::v1 {
-    //TODO: исправить обращение к конст, добавить валидатор
     UsersV1SignUpRequest Parse(const drogon::Json::Value& json) {
         UsersV1SignUpRequest request;
 
@@ -20,8 +19,8 @@ namespace NetCardID::models::users::v1 {
 
         for (const auto& network : networks) {
             request.networks.push_back({
-                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts::kNetworkName, true).value(),
-                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts:::kNetworkUrl, true).value()
+                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts::kNetworkNameField, true).value(),
+                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts:::kNetworkUrlField, true).value()
             });
         }
 

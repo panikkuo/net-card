@@ -22,6 +22,8 @@ set(SOURCES
     src/db/db_manager.hpp
     src/db/db_manager.cpp
     src/db/db_requests.hpp
+    src/models/users_v1.hpp
+    src/models/users_v1.cpp
     src/handlers/signup.hpp
     src/handlers/signup.cpp
 )

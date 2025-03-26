@@ -1,6 +1,6 @@
 #include <drogon/drogon.h>
 
-#include "signup.cpp"
+#include "handlers/signup.hpp"
 
 int main() {
     drogon::app().loadConfigFile("config.json");
@@ -8,9 +8,9 @@ int main() {
     DbManager::init(config["db"]);
 
     drogon::app().registerHandler(
-        NetCardID::users::v1::signup::post::Handler::kMethod;
-        &NetCardID::users::v1::signup::post::Handler::RequestHandler()
-        NetCardID::users::v1::signup::post::Handler::kMethod;
+        NetCardID::users::v1::signup::post::Handler::kMethod,
+        &NetCardID::users::v1::signup::post::Handler::RequestHandler,
+        { NetCardID::users::v1::signup::post::Handler::kMethod }
     );
 
     drogon::app().run();
