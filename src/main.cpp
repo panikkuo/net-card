@@ -1,6 +1,9 @@
 #include <drogon/drogon.h>
 
+#include "db/db_manager.hpp"
+
 #include "handlers/signup.hpp"
+
 
 int main() {
     drogon::app().loadConfigFile("config.json");

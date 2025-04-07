@@ -17,7 +17,7 @@ namespace NetCardID::utils::errors {
 
 
     //Extraction error
-    ExtractionErrorID::ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string_view& field) {
+    ExtractionErrorID::ExtractionErrorID(const std::pair<drogon::HttpStatusCode, std::string_view>& message, const std::string_view& field) const {
         message_ = std::string(message.second) + " " + std::string(field);
         code_ = message.first;
     }

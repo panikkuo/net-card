@@ -19,5 +19,5 @@ namespace NetCardID::models::users::v1 {
         std::vector<Network> networks;
     };
 
-    UsersV1SignUpRequest Parse(const drogon::Json::Value& json);
+    UsersV1SignUpRequest Parse(const Json::Value& json);
 }

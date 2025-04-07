@@ -16,10 +16,10 @@
 namespace NetCardID::users::v1::signup::post {
     class Handler final {
     public:
-        void RequestHandler(const drogon::HttpRequestPtr& request, std::function<void(const drogon::HttpResponsePtr&)>&& callback);
+        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
         std::string kName = "/api/users/v1/signup";
-        drogon::HttpMethod kMethod = drogon::Post;
+        const static drogon::HttpMethod kMethod = drogon::Post;
     private:
-        const std::shared_ptr<drogon::orm::DbClient> db = getDbClient();
+        const static std::shared_ptr<drogon::orm::DbClient> db = getDbClient();
     };
 }
