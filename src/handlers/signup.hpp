@@ -14,13 +14,13 @@
 
 #include "models/users_v1.hpp"
 
+#include "base/base_handler.hpp"
+
 namespace NetCardID::users::v1::signup::post {
-    class Handler final {
+    class Handler final : public NetCardID::base::BaseHandler {
     public:
-        static drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
-        const static std::string kName = "/api/v1/users/signup";
-        const static drogon::HttpMethod kMethod = drogon::Post;
-    private:
-        const static std::shared_ptr<drogon::orm::DbClient> db = db::DbManager::getDbClient();
+        static constexpr std::string_view kName = "users-v1-signup";
+        Handler(Json::Value configs) : BaseHandler(configs, kName) {};
+        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request) override;
     };
 }

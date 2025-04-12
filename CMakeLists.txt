@@ -24,6 +24,8 @@ set(SOURCES
     src/db/db_requests.hpp
     src/models/users_v1.hpp
     src/models/users_v1.cpp
+    src/base/base_handler.hpp
+    src/base/base_handler.cpp
     src/handlers/signup.hpp
     src/handlers/signup.cpp
 )

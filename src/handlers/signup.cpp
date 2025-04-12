@@ -34,7 +34,7 @@ namespace NetCardID::users::v1::signup::post {
                 co_return response;
             }
 
-            LOG_ERROR << "Database error: " << e.base().what() << " " << e.base().code() << " " << e.base().message();
+            LOG_ERROR << "Database error: " << e.base().what();
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";
@@ -45,11 +45,11 @@ namespace NetCardID::users::v1::signup::post {
             for (const auto net : user_request.networks) {
                 drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, net.network);
                 std::string net_id = result[0]["id"].as<std::string>();
-                co_await db->execSqlCoro(NetCardID::db::db_request::NetkAddUserNetQuery, user_id, net_id, user_request.url);
+                co_await db->execSqlCoro(NetCardID::db::db_request::kAddUserNetQuery, user_id, net_id, net.url);
             }
         }
         catch (const drogon::orm::DrogonDbException &e) {
-            LOG_ERROR << "Database error: " << e.base().what() << " " << e.base().code() << " " << e.base().message();
+            LOG_ERROR << "Database error: " << e.base().what();
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";

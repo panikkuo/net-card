@@ -10,10 +10,12 @@ int main() {
     auto config = drogon::app().getCustomConfig();
     NetCardID::db::DbManager::init(config["db"]);
 
+    NetCardID::users::v1::signup::post::Handler signupHandler(config);
+
     drogon::app().registerHandler(
-        NetCardID::users::v1::signup::post::Handler::kName,
+        signupHandler.kPath,
         &NetCardID::users::v1::signup::post::Handler::RequestHandler,
-        { NetCardID::users::v1::signup::post::Handler::kMethod }
+        {signupHandler.kMethod}
     );
 
     drogon::app().run();

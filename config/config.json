@@ -16,5 +16,11 @@
                 "ssl" : false
             }
         ]
+    },
+    "handlers": {
+        "users-v1-signup" : {
+            "path" : "/api/v1/users/signup",
+            "method" : "POST"
+        }
     }
 }
