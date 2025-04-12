@@ -2,6 +2,7 @@
 #include <memory>
 #include <Json/json.h>
 #include <drogon/drogon.h>
+#include <trantor/utils/Logger.h>
 
 #include "utils/errors.hpp"
 #include "utils/extractors.hpp"
@@ -16,10 +17,10 @@
 namespace NetCardID::users::v1::signup::post {
     class Handler final {
     public:
-        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
-        std::string kName = "/api/users/v1/signup";
+        static drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
+        const static std::string kName = "/api/v1/users/signup";
         const static drogon::HttpMethod kMethod = drogon::Post;
     private:
-        const static std::shared_ptr<drogon::orm::DbClient> db = getDbClient();
+        const static std::shared_ptr<drogon::orm::DbClient> db = db::DbManager::getDbClient();
     };
 }

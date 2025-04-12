@@ -25,6 +25,9 @@ namespace NetCardID::utils::consts {
     inline constexpr std::string_view kNetworkUrlField = "url";
     inline constexpr std::string_view kNetworkPictureUrlField = "picture_url";
 
+    // db error keys
+    inline constexpr std::string_view kUniqueKeyError = "users_username_key";
+
     //Validation errors
     inline constexpr std::pair<drogon::HttpStatusCode, std::string_view> 
         kInvalidUsernameError{drogon::HttpStatusCode::k400BadRequest, "Invalid username"};

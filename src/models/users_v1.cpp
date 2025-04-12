@@ -4,24 +4,24 @@ namespace NetCardID::models::users::v1 {
     UsersV1SignUpRequest Parse(const Json::Value& json) {
         UsersV1SignUpRequest request;
 
-        request.username = NetCardID::utils::extractors::ExtractValueFromJson(json, NetCard::utils::consts::kUsernameField, true).value();
-        NetCatdID::utils::validators::ValidateUsername(request.username);
+        request.username = NetCardID::utils::extractor::ExtractValueFromJson(json, NetCardID::utils::consts::kUsernameField, true).value();
+        NetCardID::utils::validators::ValidateUsername(request.username);
 
-        request.password = NetCardID::utils::extractors::ExtractValueFromJson(json, NetCard::utils::consts::kPasswordField, true).value();
+        request.password = NetCardID::utils::extractor::ExtractValueFromJson(json, NetCardID::utils::consts::kPasswordHashField, true).value();
         NetCardID::utils::validators::ValidatePassword(request.password);
 
-        auto networks_opt = NetCardID::utils::extractors::ExtractJsonFromJson(json, NetCard::utils::consts::kNetworksCollection, false);
+        auto networks_opt = NetCardID::utils::extractor::ExtractJsonFromJson(json, NetCardID::utils::consts::kNetworksCollectionField, false);
 
         if (!networks_opt.has_value()) 
             return request;
         
-        auto networks = networks.value();
+        auto networks = networks_opt.value();
 
         for (const auto& network : networks) {
-            request.networks.push_back({
-                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts::kNetworkNameField, true).value(),
-                NetCardID::utils::extractors::ExtractValueFromJson(network, NetCard::utils::consts:::kNetworkUrlField, true).value()
-            });
+            UsersV1SignUpRequest::Network net;
+            net.network = NetCardID::utils::extractor::ExtractValueFromJson(network, NetCardID::utils::consts::kNetworkNameField, true).value();
+            net.url = NetCardID::utils::extractor::ExtractValueFromJson(network, NetCardID::utils::consts::kNetworkUrlField, true).value();
+            request.networks.push_back(net);
         }
 
         return request;

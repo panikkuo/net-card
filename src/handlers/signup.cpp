@@ -20,28 +20,40 @@ namespace NetCardID::users::v1::signup::post {
             co_return response;
         }
 
-        std::string user_id
+        std::string user_id;
 
         try {
             drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kAddUserQuery, user_request.username, user_request.password);
             user_id = result[0]["id"].as<std::string>();
         }
         catch (const drogon::orm::DrogonDbException &e) {
-            if (msg.find("users_username_key") != std::string::npos) {
-                co_return HttpResponse::newHttpJsonResponse(
-                    Json::Value{ {"error", "Username already exists"} });
-                }
+            if (msg.find(NetCardID::utils::consts::kUniqueKeyError.data()) != std::string::npos) {
+                response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
+                Json::Value json;
+                json["Result"] = "User with this username already exists";
+                co_return response;
+            }
+
+            LOG_ERROR << "Database error: " << e.base().what() << " " << e.base().code() << " " << e.base().message();
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
+            co_return response;
         }
 
         try {
             for (const auto net : user_request.networks) {
                 drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, net.network);
                 std::string net_id = result[0]["id"].as<std::string>();
-                co_await db->execSqlCoro(NetCard::db::db_request::NetkAddUserNetQuery, user_id, net_id, user_request.url);
+                co_await db->execSqlCoro(NetCardID::db::db_request::NetkAddUserNetQuery, user_id, net_id, user_request.url);
             }
         }
         catch (const drogon::orm::DrogonDbException &e) {
-
+            LOG_ERROR << "Database error: " << e.base().what() << " " << e.base().code() << " " << e.base().message();
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
+            co_return response;
         }
 
         response->setStatusCode(drogon::HttpStatusCode::k200OK);
