@@ -10,7 +10,9 @@ namespace NetCardID::db {
             config["host"].asString() + ":" +
             std::to_string(config["port"].asInt()) + "/" +
             config["database"].asString();
-        
+
+        LOG_DEBUG << "Connecting to database: " << connect_str;
+
         dbClient_ = drogon::orm::DbClient::newPgClient(connect_str, 1, false);
     }
     std::shared_ptr<drogon::orm::DbClient> DbManager::getDbClient() {

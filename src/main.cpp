@@ -14,7 +14,9 @@ int main() {
 
     drogon::app().registerHandler(
         signupHandler.kPath,
-        &NetCardID::users::v1::signup::post::Handler::RequestHandler,
+        [&signupHandler](drogon::HttpRequestPtr req) -> drogon::Task<drogon::HttpResponsePtr> {
+            co_return co_await signupHandler.RequestHandler(req);
+        },
         {signupHandler.kMethod}
     );
 

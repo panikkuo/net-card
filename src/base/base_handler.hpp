@@ -1,9 +1,5 @@
-// const static std::string kName = "/api/v1/users/signup";
-// const static drogon::HttpMethod kMethod = drogon::Post;
-// private:
-// const static std::shared_ptr<drogon::orm::DbClient> db = db::DbManager::getDbClient();
-
 #include <string>
+#include <string_view>
 #include <memory>
 #include <drogon/drogon.h>
 #include <json/json.h>
@@ -14,7 +10,7 @@ namespace NetCardID::base {
     class BaseHandler {
     public:
         BaseHandler(Json::Value configs, std::string_view kName);
-        virtual drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
+        virtual drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request) = 0;
         std::string kPath;
         drogon::HttpMethod kMethod;
         

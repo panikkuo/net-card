@@ -27,6 +27,7 @@ namespace NetCardID::users::v1::signup::post {
             user_id = result[0]["id"].as<std::string>();
         }
         catch (const drogon::orm::DrogonDbException &e) {
+            std::string msg = e.base().what();
             if (msg.find(NetCardID::utils::consts::kUniqueKeyError.data()) != std::string::npos) {
                 response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
                 Json::Value json;

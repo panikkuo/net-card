@@ -8,6 +8,11 @@ add_subdirectory(third-party/drogon)
 
 find_package(PostgreSQL REQUIRED)
 
+configure_file(
+    ${CMAKE_SOURCE_DIR}/config/config.json
+    ${CMAKE_BINARY_DIR}/config.json
+    COPYONLY
+)
 
 set(SOURCES
     src/main.cpp

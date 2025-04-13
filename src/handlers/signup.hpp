@@ -21,6 +21,6 @@ namespace NetCardID::users::v1::signup::post {
     public:
         static constexpr std::string_view kName = "users-v1-signup";
         Handler(Json::Value configs) : BaseHandler(configs, kName) {};
-        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request) override;
+        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request);
     };
 }

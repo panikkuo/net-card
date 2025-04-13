@@ -4,28 +4,21 @@ namespace NetCardID::base {
     BaseHandler::BaseHandler(Json::Value configs, std::string_view kName) {
         Json::Value config = configs[kName.data()];
         kPath = config["path"].asString();
-        switch (config["method"]){
-            case "POST":
-                kMethod = drogon::HttpMethod::Post;
-                break;
-            case "GET":
-                kMethod = drogon::HttpMethod::Get;
-                break;
-            case "PUT":
-                kMethod = drogon::HttpMethod::Put;
-                break;
-            case "DELETE":
-                kMethod = drogon::HttpMethod::Delete;
-                break;
-            case "PATCH":
-                kMethod = drogon::HttpMethod::Patch;
-                break;
-            case "HEAD":
-                kMethod = drogon::HttpMethod::Head;
-                break;
-            case "OPTIONS":
-                kMethod = drogon::HttpMethod::Options;
-                break;
+        std::string methodStr = config["method"].asString();
+        if (methodStr == "POST") {
+            kMethod = drogon::HttpMethod::Post;
+        } else if (methodStr == "GET") {
+            kMethod = drogon::HttpMethod::Get;
+        } else if (methodStr == "PUT") {
+            kMethod = drogon::HttpMethod::Put;
+        } else if (methodStr == "DELETE") {
+            kMethod = drogon::HttpMethod::Delete;
+        } else if (methodStr == "PATCH") {
+            kMethod = drogon::HttpMethod::Patch;
+        } else if (methodStr == "HEAD") {
+            kMethod = drogon::HttpMethod::Head;
+        } else if (methodStr == "OPTIONS") {
+            kMethod = drogon::HttpMethod::Options;
         }
         kMethod = static_cast<drogon::HttpMethod>(config["method"].asInt());
         db = db::DbManager::getDbClient();
