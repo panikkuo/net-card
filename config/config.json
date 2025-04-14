@@ -1,26 +1,28 @@
 {
-    "db" : {
-        "host" : "127.0.0.1",
-        "port" : 5432,
-        "database" : "NetCard",
-        "user" : "postgres",
-        "password" : "password",
-        "client" : "postgresql"
-    },
     "app": {
         "log_level" : "debug",
         "listeners" : [
             {
-                "adress" : "0.0.0.0",
+                "address" : "127.0.0.1",
                 "port" : 8080,
                 "ssl" : false
             }
         ]
     },
-    "handlers": {
-        "users-v1-signup" : {
-            "path" : "/api/v1/users/signup",
-            "method" : "POST"
+    "custom_config" : {
+        "db" : {
+            "host" : "127.0.0.1",
+            "port" : 5432,
+            "database" : "NetCard",
+            "user" : "postgres",
+            "password" : "password",
+            "client" : "postgresql"
+        },
+        "handlers": {
+            "users-v1-signup" : {
+                "path" : "/api/users/v1/signup",
+                "method" : "POST"
+            }
         }
     }
 }

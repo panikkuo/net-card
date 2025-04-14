@@ -1,7 +1,7 @@
 #include "base_handler.hpp"
 
 namespace NetCardID::base {
-    BaseHandler::BaseHandler(Json::Value configs, std::string_view kName) {
+    BaseHandler::BaseHandler(Json::Value& configs, std::string_view kName) {
         Json::Value config = configs[kName.data()];
         kPath = config["path"].asString();
         std::string methodStr = config["method"].asString();
@@ -19,8 +19,7 @@ namespace NetCardID::base {
             kMethod = drogon::HttpMethod::Head;
         } else if (methodStr == "OPTIONS") {
             kMethod = drogon::HttpMethod::Options;
-        }
-        kMethod = static_cast<drogon::HttpMethod>(config["method"].asInt());
+        };
         db = db::DbManager::getDbClient();
     }
 }

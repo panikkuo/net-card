@@ -4,13 +4,17 @@
 
 #include "handlers/signup.hpp"
 
+#include <iostream>
+
 
 int main() {
     drogon::app().loadConfigFile("config.json");
-    auto config = drogon::app().getCustomConfig();
+    Json::Value config = drogon::app().getCustomConfig();
+
     NetCardID::db::DbManager::init(config["db"]);
 
-    NetCardID::users::v1::signup::post::Handler signupHandler(config);
+    NetCardID::users::v1::signup::post::Handler signupHandler(config["handlers"]);
+
 
     drogon::app().registerHandler(
         signupHandler.kPath,
@@ -19,6 +23,9 @@ int main() {
         },
         {signupHandler.kMethod}
     );
-
+    
+    std::cout << "Server started" << std::endl;
+    drogon::app().addListener("127.0.0.1", 8080);
     drogon::app().run();
+
 }

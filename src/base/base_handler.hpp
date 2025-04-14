@@ -9,7 +9,7 @@
 namespace NetCardID::base {
     class BaseHandler {
     public:
-        BaseHandler(Json::Value configs, std::string_view kName);
+        BaseHandler(Json::Value& configs, std::string_view kName);
         virtual drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequestPtr& request) = 0;
         std::string kPath;
         drogon::HttpMethod kMethod;

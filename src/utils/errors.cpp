@@ -8,7 +8,8 @@ namespace NetCardID::utils::errors {
 
     std::string ValidationErrorID::error() const {
         Json::Value jsonError;
-        return message_;
+        jsonError["Validation-error"] = message_;
+        return jsonError.toStyledString();
     }
 
     drogon::HttpStatusCode ValidationErrorID::code() const {
@@ -23,7 +24,9 @@ namespace NetCardID::utils::errors {
     }
 
     std::string ExtractionErrorID::error() const {
-        return message_;
+        Json::Value jsonError;
+        jsonError["Extraction-error"] = message_;
+        return jsonError.toStyledString();
     }
 
     drogon::HttpStatusCode ExtractionErrorID::code() const {

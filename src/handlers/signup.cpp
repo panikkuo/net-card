@@ -19,6 +19,12 @@ namespace NetCardID::users::v1::signup::post {
             response->setBody(exception.error());
             co_return response;
         }
+        catch (const std::exception& exception) {
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
+            co_return response;
+        }
 
         std::string user_id;
 
