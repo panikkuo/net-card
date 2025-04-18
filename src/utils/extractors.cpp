@@ -1,8 +1,5 @@
 #include "extractors.hpp"
 
-#include "consts.hpp"
-#include "errors.hpp"
-
 namespace NetCardID::utils::extractor {
     std::optional<std::string> ExtractValueFromJson(const Json::Value& json, const std::string_view& field, bool required) {
         if (json.isMember(field.data())) {

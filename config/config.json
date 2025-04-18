@@ -1,23 +1,15 @@
 {
     "app": {
-        "log_level" : "debug",
-        "listeners" : [
-            {
-                "address" : "127.0.0.1",
-                "port" : 8080,
-                "ssl" : false
-            }
-        ]
+        "log_level" : "debug"
     },
+    "listeners" : [
+        {
+            "address" : "127.0.0.1",
+            "port" : 8080,
+            "ssl" : false
+        }
+    ],
     "custom_config" : {
-        "db" : {
-            "host" : "127.0.0.1",
-            "port" : 5432,
-            "database" : "NetCard",
-            "user" : "postgres",
-            "password" : "password",
-            "client" : "postgresql"
-        },
         "handlers": {
             "users-v1-signup" : {
                 "path" : "/api/users/v1/signup",

@@ -1,12 +1,12 @@
 #include "login.hpp"
 
-namespace NetCatdID::users::v1::login::post {
-    drogon::Task<drogon::Http::ResponsePtr> Handler::RequestHandler(const drogon::HttpRequestPtr& request) {
+namespace NetCardID::users::v1::login::post {
+    drogon::Task<drogon::HttpResponsePtr> Handler::RequestHandler(const drogon::HttpRequestPtr& request) {
         drogon::HttpResponsePtr response = drogon:::HttpResponse::newHttpResponse();
-        Json::Value json_request = request->getJsonObject();
+        std::shared_ptr<Json::Value> json_request = request->getJsonObject();
 
         try {
-            user_request = NetCardID::models::users::Parse(json_request);
+            user_request = NetCardID::models::users::Parse(*json_request);
         }
         catch (const utils::errors::ValidationErrorID& exception) {
             response->setStatusCode(exception.code());
@@ -25,11 +25,11 @@ namespace NetCatdID::users::v1::login::post {
             co_return response;
         }
 
-        std:string id;
-        std::string username;
+        std::string id;
         std::string password;
+
         try {
-            drogon::Result result = co_await db->execSqkCoro(NetCardID::db::db_request::kGetUserByUsernameQuery, user_request.username);
+            drogon::orm::Result result = co_await db->execSqkCoro(NetCardID::db::db_request::kGetIdAndPasswordByUsernameQuery, user_request.username);
 
             if (result.empty()) {
                 response->setStatusCode(drogon::HttpStatusCode::k403Forbidden);
@@ -40,8 +40,7 @@ namespace NetCatdID::users::v1::login::post {
             }
 
             id = result[0]["id"];
-            username = result[0]["username"];
-            password = result[0]["password_hash"];
+            password = result[0]["password"];
         }
         catch (const drogon::orm::DrogonDbException &e) {
             LOG_ERROR << "Database error: " << e.base().what();
@@ -49,6 +48,13 @@ namespace NetCatdID::users::v1::login::post {
             Json::Value json;
             json["Result"] = "Internal server error";
             response->setBody(json.toStyledString());
+            co_return response;
+        }
+        catch (const std::exception& exception) {
+            LOG_ERROR << exception.what();
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
             co_return response;
         }
 

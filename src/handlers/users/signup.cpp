@@ -20,6 +20,7 @@ namespace NetCardID::users::v1::signup::post {
             co_return response;
         }
         catch (const std::exception& exception) {
+            LOG_ERROR << "Error parsing JSON: " << exception.what();
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";
@@ -34,10 +35,17 @@ namespace NetCardID::users::v1::signup::post {
         }
         catch (const drogon::orm::DrogonDbException &e) {
             std::string msg = e.base().what();
-            if (msg.find(NetCardID::utils::consts::kUniqueKeyError.data()) != std::string::npos) {
+            if (msg.find(NetCardID::utils::consts::kUsernameUniqueKeyError.data()) != std::string::npos) {
                 response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
                 Json::Value json;
                 json["Result"] = "User with this username already exists";
+                response->setBody(json.toStyledString());
+                co_return response;
+            }
+            if (msg.find(NetCardID::utils::conts::kEmailUniqueKeyError.data()) != std::string::npos) {
+                response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
+                Json::Value json;
+                json["Result"] = "User with this email already exists";
                 response->setBody(json.toStyledString());
                 co_return response;
             }
@@ -50,39 +58,7 @@ namespace NetCardID::users::v1::signup::post {
             co_return response;
         }
         catch (const std::exception& exception) {
-            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
-            Json::Value json;
-            json["Result"] = "Internal server error";
-            response->setBody(json.toStyledString());
-            co_return response;
-        }
-
-        try {
-            for (const auto net : user_request.networks) {
-                drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, net.network);
-
-                if (result.empty()) {
-                    LOG_ERROR << "Network type not found: " << net.network;
-                    response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
-                    Json::Value json;
-                    json["Result"] = "Invalid network" + net.network;
-                    response->setBody(json.toStyledString());
-                    co_return response;
-                }
-
-                std::string net_id = result[0]["id"].as<std::string>();
-                co_await db->execSqlCoro(NetCardID::db::db_request::kAddUserNetQuery, user_id, net_id, net.url);
-            }
-        }
-        catch (const drogon::orm::DrogonDbException &e) {
-            LOG_ERROR << "Database error: " << e.base().what();
-            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
-            Json::Value json;
-            json["Result"] = "Internal server error";
-            response->setBody(json.toStyledString());
-            co_return response;
-        }
-        catch (const std::exception& exception) {
+            LOG_ERROR << "Error parsing JSON: " << exception.what();
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";

@@ -15,7 +15,7 @@ namespace NetCardID::utils::consts {
     inline constexpr int kUsernameMinLength = 3;
     inline constexpr int kUsernameMaxLength = 20;
 
-    inline constexpr std::string_view kPasswordHashField = "password_hash";
+    inline constexpr std::string_view kPasswordHashField = "password";
     inline const std::regex kPasswordPattern{"^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_\\-+=\\[\\]{};':\"\\|,.<>/?]).+$"};
 
     // network
@@ -26,7 +26,8 @@ namespace NetCardID::utils::consts {
     inline constexpr std::string_view kNetworkPictureUrlField = "picture_url";
 
     // db error keys
-    inline constexpr std::string_view kUniqueKeyError = "users_username_key";
+    inline constexpr std::string_view kUsernameUniqueKeyError = "users_username_key";
+    inline constexpr std::string_view kEmailUniqueKeyError = "users_email_key";
 
     //Validation errors
     inline constexpr std::pair<drogon::HttpStatusCode, std::string_view> 

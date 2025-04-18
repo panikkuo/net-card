@@ -16,11 +16,11 @@
 
 #include "base/base_handler.hpp"
 
-namespace NetCardID::users::v1::profile:get {
+namespace NetCardID::users::v1::profile::get {
     class Handler final : public NetCardID::base::BaseHandler {
     public:
         static constexpr std::string_view kName = "users-v1-profile";
         Handler(Json::Value configs) : BaseHandler(configs, kName);
-        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::Http:Request& request, std::string username) override;
+        drogon::Task<drogon::HttpResponsePtr> RequestHandler(const drogon::HttpRequest& request, std::string username) override;
     }
 }

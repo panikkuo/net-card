@@ -6,7 +6,8 @@ namespace NetCardID::objects::v1 {
     struct User final {
         std::string uuid;
         std::string username;
-        std::string password_hash;
+        std::string password;
+        std::string email;
     };
 
     struct Netword final {
@@ -19,5 +20,5 @@ namespace NetCardID::objects::v1 {
         std::string user_uuid;
         std::string network_id;
         std::string url; 
-    }
+    };
 }

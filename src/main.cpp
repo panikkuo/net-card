@@ -25,6 +25,6 @@ int main() {
     );
     
     std::cout << "Server started" << std::endl;
-    drogon::app().addListener("127.0.0.1", 8080);
+    //drogon::app().addListener("127.0.0.1", 8080);
     drogon::app().run();
 }

@@ -5,6 +5,7 @@ project(NetCard VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(third-party/drogon)
+add_subdirectory(third-party/dotenv-cpp)
 
 find_package(PostgreSQL REQUIRED)
 
@@ -39,6 +40,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     drogon 
+    dotenv-cpp 
     PostgreSQL::PostgreSQL
 )
 
