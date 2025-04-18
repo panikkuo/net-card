@@ -22,6 +22,30 @@
             "users-v1-signup" : {
                 "path" : "/api/users/v1/signup",
                 "method" : "POST"
+            },
+            "users-v1-social-networks": {
+                "path" : "/api/uesrs/v1/social-networks",
+                "method" : "POST"
+            },
+            "users-v1-login" : {
+                "path" : "/api/users/v1/login",
+                "method" : "POST"
+            },
+            "users-v1-profile" : {
+                "path" : "/api/users/v1/profile/{1}",
+                "method" : "GET"
+            },
+            "users-v1-update-user-info" : {
+                "path" : "/api/users/v1/udpate-user-info",
+                "method" : "POST"
+            },
+            "users-v1-update-user-networks" : {
+                "path" : "/api/uesrs/v1/update-user-networks",
+                "method" : "POST"
+            },
+            "networks-v1-social-networks" : {
+                "path" : "/api/social-networks/v1",
+                "method" : "GET"
             }
         }
     }

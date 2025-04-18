@@ -26,4 +26,28 @@ namespace NetCardID::models::users::v1 {
 
         return request;
     }
+
+    UsersV1LoginRequest Parse(const Json::Value& json) {
+        UsersV1LoginRequest reqeust;
+
+        request.username = NetCardID::utils::extractor::ExtractValueFromJson(json, NetCardID::utils::consts::kUsernameField, true).value();
+        request.password = NetCardID::utils::extractor::ExtractValueFromJson(json, NetCardID::utils::consts::kPasswordHashField, true).value();
+
+        return request;
+    }
+
+    Json::Value Serialize(const UsersV1Profile& data) {
+        Json:::Value json;
+        json["id"] = data.id;
+        json["username"] = data.username;
+        Json::Value json_nets;
+        for (const auto& net : data.networks) {
+            Json::Value json_net;
+            json_net["network"] = net.network;
+            json_net["url"] = net.url;
+            json_nets.append(json_net);
+        }
+
+        return json;
+    }
 }

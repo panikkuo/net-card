@@ -38,6 +38,7 @@ namespace NetCardID::users::v1::signup::post {
                 response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
                 Json::Value json;
                 json["Result"] = "User with this username already exists";
+                response->setBody(json.toStyledString());
                 co_return response;
             }
 
@@ -45,12 +46,30 @@ namespace NetCardID::users::v1::signup::post {
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";
+            response->setBody(json.toStyledString());
+            co_return response;
+        }
+        catch (const std::exception& exception) {
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
+            response->setBody(json.toStyledString());
             co_return response;
         }
 
         try {
             for (const auto net : user_request.networks) {
                 drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, net.network);
+
+                if (result.empty()) {
+                    LOG_ERROR << "Network type not found: " << net.network;
+                    response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
+                    Json::Value json;
+                    json["Result"] = "Invalid network" + net.network;
+                    response->setBody(json.toStyledString());
+                    co_return response;
+                }
+
                 std::string net_id = result[0]["id"].as<std::string>();
                 co_await db->execSqlCoro(NetCardID::db::db_request::kAddUserNetQuery, user_id, net_id, net.url);
             }
@@ -60,6 +79,14 @@ namespace NetCardID::users::v1::signup::post {
             response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
             Json::Value json;
             json["Result"] = "Internal server error";
+            response->setBody(json.toStyledString());
+            co_return response;
+        }
+        catch (const std::exception& exception) {
+            response->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+            Json::Value json;
+            json["Result"] = "Internal server error";
+            response->setBody(json.toStyledString());
             co_return response;
         }
 

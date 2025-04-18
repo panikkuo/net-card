@@ -20,4 +20,23 @@ namespace NetCardID::models::users::v1 {
     };
 
     UsersV1SignUpRequest Parse(const Json::Value& json);
+
+    struct UsersV1LoginRequest final {
+        std::string username;
+        std::string password;
+    }
+
+    UsersV1LoginRequest Parse(const Json::Value& json);
+
+    stuct UsersV1ProfileRequest final {
+        std::string id;
+        std::string username;
+        struct Network {
+            std::string network;
+            std::string url;
+        }
+        std::vector<Network> networks;
+    }
+
+    Json::Value Serialize(const UsersV1ProfileRequest& data);
 }
