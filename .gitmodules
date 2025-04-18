@@ -1,3 +1,6 @@
 [submodule "third-party/drogon"]
 	path = third-party/drogon
 	url = https://github.com/drogonframework/drogon.git
+[submodule "third-party/dotenv-cpp"]
+	path = third-party/dotenv-cpp
+	url = https://github.com/laserpants/dotenv-cpp.git
