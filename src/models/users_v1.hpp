@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <Json/json.h>
+#include <drogon/drogon.h>
 
 #include "utils/extractors.hpp"
 #include "utils/validators.hpp"
@@ -14,15 +15,15 @@ namespace NetCardID::models::users::v1 {
         std::string password;
         std::string email;
     };
+    UsersV1SignUpRequest ParseSignUpRequest(const Json::Value& json);
 
-    UsersV1SignUpRequest Parse(const Json::Value& json);
 
     struct UsersV1LoginRequest final {
         std::string username;
         std::string password;
     };
+    UsersV1LoginRequest ParseLoginRequest(const Json::Value& json);
 
-    UsersV1LoginRequest Parse(const Json::Value& json);
 
     struct UsersV1ProfileRequest final {
         std::string id;
@@ -34,17 +35,17 @@ namespace NetCardID::models::users::v1 {
         };
         std::vector<Network> networks;
     };
-
-    std::vector<UsersV1ProfileRequest::Network> ParseNetworks(const drogon::orm::Result result);
+    std::vector<UsersV1ProfileRequest::Network> ParseNetworks(drogon::orm::Result result);
     Json::Value Serialize(const UsersV1ProfileRequest& data);
 
+    
     struct UsersV1SocialNetworksRequest final {
-        struct nerwork {
+        std::string user_id;
+        struct Network {
             std::string network;
             std::string url;
-        }
-        vector<Network> networks;
+        };
+        std::vector<Network> networks;
     };
-
-    UsersV1SocialNetworksRequest Parse(const Json::Value& json);
+    UsersV1SocialNetworksRequest ParseSocialNetworksRequest(const Json::Value& json);
 }

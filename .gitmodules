@@ -4,6 +4,3 @@
 [submodule "third-party/dotenv-cpp"]
 	path = third-party/dotenv-cpp
 	url = https://github.com/laserpants/dotenv-cpp.git
-[submodule "third-party/third-party/dotenv-cpp"]
-	path = third-party/third-party/dotenv-cpp
-	url = https://github.com/laserpants/dotenv-cpp.git

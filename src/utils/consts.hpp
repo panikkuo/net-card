@@ -5,12 +5,13 @@
 #include <drogon/HttpResponse.h>
 
 namespace NetCardID::utils::consts {
-    inline constexpr std::string_view kIdField = "id";
+    inline constexpr std::string_view kUserIdField = "id";
 
     //user
     inline constexpr std::string_view kUsersCollection = "users";
     
     inline constexpr std::string_view kUsernameField = "username";
+    inline constexpr std::string_view kEmailField = "email";
     inline const std::regex kUsernamePattern{"^[a-zA-Z][a-zA-Z0-9_]{2,19}$"};
     inline constexpr int kUsernameMinLength = 3;
     inline constexpr int kUsernameMaxLength = 20;
@@ -41,6 +42,8 @@ namespace NetCardID::utils::consts {
     //Extraction errors
     inline constexpr std::pair<drogon::HttpStatusCode, std::string_view>
         kMissingFieldError{drogon::HttpStatusCode::k400BadRequest, "Missing required field"};
+    inline constexpr std::pair<drogon::HttpStatusCode, std::string_view>
+        kBadFieldValueError{drogon::HttpStatusCode::k400BadRequest, "Bad value field"};
 
     //Unknown error
     inline constexpr std::pair<drogon::HttpStatusCode, std::string_view>

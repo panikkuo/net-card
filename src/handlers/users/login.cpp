@@ -4,16 +4,17 @@ namespace NetCardID::users::v1::login::post {
     drogon::Task<drogon::HttpResponsePtr> Handler::RequestHandler(const drogon::HttpRequestPtr& request) {
         drogon::HttpResponsePtr response = drogon:::HttpResponse::newHttpResponse();
         std::shared_ptr<Json::Value> json_request = request->getJsonObject();
+        models::users::v1::UsersV1LoginRequest user;
 
         try {
-            user_request = NetCardID::models::users::Parse(*json_request);
+            user_request = NetCardID::models::users::ParseLoginRequest(*json_request);
         }
         catch (const utils::errors::ValidationErrorID& exception) {
             response->setStatusCode(exception.code());
             response->setBody(exception.error());
             co_return response;
         }
-        catch (const utils::errors::ExtractionErrorID& exception) {
+        catch (const utils::errors::ExtractionError& exception) {
             response->setStatusCode(exception.code());
             response->setBody(exception.error());
             co_return response;

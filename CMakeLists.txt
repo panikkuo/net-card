@@ -15,6 +15,12 @@ configure_file(
     COPYONLY
 )
 
+configure_file(
+    ${CMAKE_SOURCE_DIR}/.env
+    ${CMAKE_BINARY_DIR}/.env
+    COPYONLY
+)
+
 set(SOURCES
     src/main.cpp
     src/objects/objects_v1.hpp
@@ -32,15 +38,15 @@ set(SOURCES
     src/models/users_v1.cpp
     src/base/base_handler.hpp
     src/base/base_handler.cpp
-    src/handlers/signup.hpp
-    src/handlers/signup.cpp
+    src/handlers/users/signup.hpp
+    src/handlers/users/signup.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     drogon 
-    dotenv-cpp 
+    dotenv
     PostgreSQL::PostgreSQL
 )
 

@@ -1,14 +1,16 @@
 #include "socail-networks.hpp"
 
+//TODO : тут юзернейм достается из тела запроса, а не из токена. Нужно исправить позже
+
 namespace NetCardID::users::v1::social_networks::post {
     drogon::Task<drogon::HttpResponsePtr> Handler::RequestHandler(const drogon::HttpRequestPtr& request) {
         drogon::HttpResponsePtr response = drogon::HttpResponse::newHttpResponse();
         std::shared_ptr<Json::Value> json_request = request->getJsonObject();
 
-        models::users::v1::UsersV1SocialNetworksRequest user_request;
+        NetCardID::models::users::v1::UsersV1SocialNetworksRequest user_request;
 
         try {
-            user_request = models::users::v1::Parse(*json_request);
+            user_request = models::users::v1::ParseSocialNetworksRequest(*json_request);
         }
         catch (const utils::errors::ValidationErrorID& exception) {
             response->setStatusCode(exception.code());
@@ -30,7 +32,19 @@ namespace NetCardID::users::v1::social_networks::post {
 
         Json::Value added_networks(Json::arrayValue);
         try {
-            for (const auto& net : user_request.networks) {
+            for (const auto& network : user_request.networks) {
+                drogon::orm::Result result = co_await db->execSqlCoro(NetCardID::db::db_request::kGetNetIdQuery, network.network);
+
+                if (result.empty()) {
+                    LOG_ERROR << "Network type not found: " << network.network;
+                    response->setStatusCode(drogon::HttpStatusCode::k400BadRequest);
+                    Json::Value json;
+                    json["Result"] = "Invalid network " + network.network;
+                    response->setBody(json.toStyledString());
+                    co_return response;
+                }
+
+                std::string network_id = result[0]["id"].as<std::string>();
 
             }
         }

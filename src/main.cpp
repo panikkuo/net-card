@@ -1,17 +1,18 @@
 #include <drogon/drogon.h>
+#include <dotenv.h>
 
 #include "db/db_manager.hpp"
 
-#include "handlers/signup.hpp"
+#include "handlers/users/signup.hpp"
 
 #include <iostream>
 
-
 int main() {
     drogon::app().loadConfigFile("config.json");
+    dotenv::init();
     Json::Value config = drogon::app().getCustomConfig();
 
-    NetCardID::db::DbManager::init(config["db"]);
+    NetCardID::db::DbManager::init();
 
     NetCardID::users::v1::signup::post::Handler signupHandler(config["handlers"]);
 
